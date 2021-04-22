@@ -1,0 +1,44 @@
+version: "3"
+services:
+  ita:
+    container_name: ita
+    hostname: ita
+    privileged: true
+    restart: always
+    tty: true
+    # command: /sbin/init
+    # environment:
+    #   - ITA_VERSION=1.6.3
+    build:
+      args:
+        - ITA_VERSION=1.7.0
+      context: ./ita
+      dockerfile: Dockerfile
+    volumes:
+      - ./ita/files/ita_answers.txt:/home/it-automation/ita_install_package/install_scripts/ita_answers.txt
+      - ./ita/files/install.sh:/home/it-automation/ita_install_package/install_scripts/bin/install.sh
+      - ./ita/data/exastro:/exastro
+      - ./ita/data/var/lib/mysql:/var/lib/mysql
+    ports:
+      - "10443:80"
+  oase:
+    container_name: oase
+    hostname: oase
+    privileged: true
+    restart: always
+    tty: true
+    # command: /sbin/init
+    # environment:
+    #   - ITA_VERSION=1.6.3
+    build:
+      args:
+        - OASE_VERSION=1.2.0
+      context: ./oase
+      dockerfile: Dockerfile
+    volumes:
+      - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
+      - ./oase/files/oase_middleware_setup_core.sh:/home/oase/oase_install_package/install_scripts/bin/oase_middleware_setup_core.sh
+    #   - ./ita/data/exastro:/exastro
+    #   - ./ita/data/var/lib/mysql:/var/lib/mysql
+    ports:
+      - "11443:80"

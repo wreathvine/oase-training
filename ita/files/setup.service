@@ -1,0 +1,13 @@
+[Unit]
+Description=Setup ITA
+# ConditionFirstBoot=yes
+Wants=network-online.target
+After=network-online.target
+After=multi-user.target
+[Service]
+EnvironmentFile=/etc/sysconfig/setup
+Type=oneshot
+User=root
+ExecStart=/bin/sh -c "bash /home/it-automation/ita_install_package/install_scripts/ita_installer.sh"
+[Install]
+WantedBy=multi-user.target
