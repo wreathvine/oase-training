@@ -23,7 +23,7 @@ services:
       - "10443:80"
   oase:
     container_name: oase
-    hostname: oase
+    hostname: exastro-oase
     privileged: true
     restart: always
     tty: true
@@ -35,9 +35,9 @@ services:
         - OASE_VERSION=1.2.0
       context: ./oase
       dockerfile: Dockerfile
-    volumes:
-      - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
-      - ./oase/files/oase_middleware_setup_core.sh:/home/oase/oase_install_package/install_scripts/bin/oase_middleware_setup_core.sh
+    #volumes:
+    #  - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
+    #  - ./oase/files/oase_middleware_setup_core.sh:/home/oase/oase_install_package/install_scripts/bin/oase_middleware_setup_core.sh
     #   - ./ita/data/exastro:/exastro
     #   - ./ita/data/var/lib/mysql:/var/lib/mysql
     ports:
