@@ -1,44 +1,45 @@
 version: "3"
 services:
-  ita:
-    container_name: ita
-    hostname: ita
+  exastro-ita:
+    container_name: exastro-ita
+    hostname: exastro-ita
     privileged: true
     restart: always
     tty: true
-    # command: /sbin/init
-    # environment:
-    #   - ITA_VERSION=1.6.3
-    build:
-      args:
-        - ITA_VERSION=1.7.0
-      context: ./ita
-      dockerfile: Dockerfile
-    volumes:
-      - ./ita/files/ita_answers.txt:/home/it-automation/ita_install_package/install_scripts/ita_answers.txt
-      - ./ita/files/install.sh:/home/it-automation/ita_install_package/install_scripts/bin/install.sh
-      - ./ita/data/exastro:/exastro
-      - ./ita/data/var/lib/mysql:/var/lib/mysql
+    image: exastro/it-automation:1.8.0-ja
     ports:
-      - "10443:80"
-  oase:
-    container_name: oase
+      - "11080:80"
+  exastro-oase:
+    container_name: exastro-oase
     hostname: exastro-oase
     privileged: true
     restart: always
     tty: true
-    # command: /sbin/init
-    # environment:
-    #   - ITA_VERSION=1.6.3
     build:
       args:
-        - OASE_VERSION=1.2.0
+        - OASE_VERSION=1.4.0
       context: ./oase
       dockerfile: Dockerfile
-    #volumes:
-    #  - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
+    volumes:
+      - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
     #  - ./oase/files/oase_middleware_setup_core.sh:/home/oase/oase_install_package/install_scripts/bin/oase_middleware_setup_core.sh
     #   - ./ita/data/exastro:/exastro
     #   - ./ita/data/var/lib/mysql:/var/lib/mysql
     ports:
-      - "11443:80"
+      - "12080:80"
+  target-web:
+    container_name: target-web
+    hostname: target-web
+    privileged: true
+    restart: always
+    tty: true
+    command: /sbin/init
+    build:
+      context: ./target-web
+      dockerfile: Dockerfile
+    ports:
+      - "14080:80"
+networks:
+  default:
+      external:
+        name: zabbix-docker_zbx_net_frontend
