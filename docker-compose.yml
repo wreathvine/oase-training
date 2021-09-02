@@ -7,6 +7,7 @@ services:
     restart: always
     tty: true
     image: exastro/it-automation:1.8.0-ja
+    platform: linux/amd64
     ports:
       - "11080:80"
   exastro-oase:
@@ -20,6 +21,7 @@ services:
         - OASE_VERSION=1.4.0
       context: ./oase
       dockerfile: Dockerfile
+    platform: linux/x86-64
     volumes:
       - ./oase/files/oase_answers.txt:/home/oase/oase_install_package/install_scripts/oase_answers.txt
     #  - ./oase/files/oase_middleware_setup_core.sh:/home/oase/oase_install_package/install_scripts/bin/oase_middleware_setup_core.sh
@@ -37,6 +39,7 @@ services:
     build:
       context: ./target-web
       dockerfile: Dockerfile
+    platform: linux/x86-64
     ports:
       - "14080:80"
 networks:

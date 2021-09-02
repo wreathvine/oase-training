@@ -26,7 +26,7 @@ RUN chown apache: /var/www/html/wait.php
 COPY files/status.conf /etc/httpd/conf.d/
 
 
-RUN dnf install https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/zabbix-release-5.4-1.el8.noarch.rpm && \
+RUN dnf -y install https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/zabbix-release-5.4-1.el8.noarch.rpm && \
     dnf -y install zabbix-agent && \
     dnf clean all
 
