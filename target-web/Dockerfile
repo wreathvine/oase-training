@@ -4,6 +4,7 @@ FROM centos:centos8
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial && \
     dnf -y upgrade && \
     dnf -y install glibc-locale-source langpacks-ja && \
+    dnf -y install openssh-server openssh-clients && \
     dnf clean all && \
     localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 && \
     ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -12,6 +13,8 @@ ENV LANG="ja_JP.UTF-8" \
     LANGUAGE="ja_JP:ja" \
     LC_ALL="ja_JP.UTF-8" \
     TZ="Asia/Tokyo"
+
+RUN echo "root:password" | chpasswd
 
 RUN dnf -y install php php-mbstring php-xml php-xmlrpc php-gd php-pdo php-mysqlnd php-json && \
     dnf clean all

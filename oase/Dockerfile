@@ -1,5 +1,5 @@
 # IMAGE install
-ARG OASE_VERSION=1.2.0
+ARG OASE_VERSION=1.4.0
 
 FROM centos:centos7
 
@@ -9,6 +9,7 @@ ENV OASE_VERSION ${OASE_VERSION}
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
    yum -y update && \
    rm -rf /var/cache/yum/*  && \
+   yum -y install openssh-server openssh-clients && \
    yum clean all && \
    localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 && \
    ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -17,6 +18,8 @@ ENV LANG="ja_JP UTF-8" \
    LANGUAGE="ja_JP:ja" \
    LC_ALL="ja_JP.UTF-8" \
    TZ="Asia/Tokyo"
+
+RUN echo "root:password" | chpasswd
 
 RUN yum -y install wget && \
    yum -y install gcc && \
